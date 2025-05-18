@@ -7,7 +7,6 @@ namespace Football_League.Services.ResultProcessingServices.ScoringStrategies
     {
         public void ApplyScore(Match match) => UpdateStats(match, false);
         public void RevertScore(Match match) => UpdateStats(match, true);
-
         private void UpdateStats(Match match, bool isRevert)
         {
             var mod = isRevert ? -1 : 1;

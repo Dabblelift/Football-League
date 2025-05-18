@@ -36,7 +36,6 @@ namespace Football_League.Services.TeamServices
         public async Task DeleteTeamAsync(int id)
         {
             var entry = await unitOfWork.Teams.GetByIdAsync(id);
-
             unitOfWork.Teams.Delete(entry);
             await unitOfWork.CompleteAsync();
         }

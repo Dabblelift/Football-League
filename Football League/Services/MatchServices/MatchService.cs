@@ -41,7 +41,6 @@ namespace Football_League.Services.MatchServices
         public async Task DeleteMatchAsync(int id)
         {
             var entry = await unitOfWork.Matches.GetByIdAsync(id);
-
             unitOfWork.Matches.Delete(entry);
             await unitOfWork.CompleteAsync();
         }

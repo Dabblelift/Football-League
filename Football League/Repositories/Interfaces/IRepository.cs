@@ -9,7 +9,6 @@ namespace Football_League.Repositories.Interfaces
         Task<IEnumerable<TEntity>> GetAllAsNoTrackingAsync();
         Task<TEntity> GetByIdAsync(TKey id);
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
-
         Task AddAsync(TEntity entity);
         void Delete(TEntity entity);
     }

@@ -3,7 +3,6 @@
     public interface IEntityAuditInfo
     {
         DateTime CreatedOn { get; set; }
-
         DateTime? ModifiedOn { get; set; }
     }
 }

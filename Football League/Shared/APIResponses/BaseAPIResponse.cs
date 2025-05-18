@@ -5,7 +5,6 @@
         public bool Success { get; set; }
         public string Message { get; set; }
 
-
         public BaseAPIResponse(bool success, string message)
         {
             Message = message;

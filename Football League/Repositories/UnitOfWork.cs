@@ -17,7 +17,6 @@ namespace Football_League.Repositories
             this.Matches = new MatchRepository(context);
         }
         public ITeamRepository Teams { get; private set; }
-
         public IMatchRepository Matches { get; private set; }
         public async Task<int> CompleteAsync() 
         {

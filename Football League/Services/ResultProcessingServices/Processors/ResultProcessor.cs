@@ -15,7 +15,6 @@ namespace Football_League.Services.ResultProcessingServices.Processors
         {
             scoringStrategy.ApplyScore(match);
         }
-
         public void Revert(Match match)
         {
             scoringStrategy.RevertScore(match);

@@ -4,7 +4,6 @@ using Football_League.Data.Models;
 using Football_League.Services.MatchServices.Interfaces;
 using Football_League.Shared.APIResponses;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Football_League.Controllers
 {
@@ -12,12 +11,10 @@ namespace Football_League.Controllers
     [Route("[controller]")]
     public class MatchController : ControllerBase
     {
-        private readonly ILogger<MatchController> logger;
         private readonly IMatchService matchServices;
 
-        public MatchController(ILogger<MatchController> logger, IMatchService matchServices)
+        public MatchController(IMatchService matchServices)
         {
-            this.logger = logger;
             this.matchServices = matchServices;
         }
 

@@ -27,7 +27,6 @@ namespace Football_League.Shared.Repositories
             return entry;
         }
         public virtual async Task AddAsync(TEntity entity) => await DbSet.AddAsync(entity);
-
         public virtual void Delete(TEntity entity) => DbSet.Remove(entity);
     }
 }
