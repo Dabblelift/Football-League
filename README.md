@@ -17,7 +17,7 @@ A RESTful Web API for managing football league matches and teams, built with **A
 
 ### Prerequisites
 
-- [.NET 7+ SDK](https://dotnet.microsoft.com/)
+- [.NET 8+ SDK](https://dotnet.microsoft.com/)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/)
 
 ---
@@ -74,7 +74,7 @@ https://localhost:7297/swagger
 - `POST /Team/Add` – Create a team
 - `PUT /Team/update` – Update a team
 - `DELETE /Team/delete?id={id}` – Delete a team
-- 
+  
 > Use `sortBy` enum: `GoalDifference`, `Wins`, etc.
 
 ---
