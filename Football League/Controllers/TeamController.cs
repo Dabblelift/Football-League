@@ -40,7 +40,7 @@ namespace Football_League.Controllers
                     throw new ArgumentException(string.Format(ErrorMessages.InvalidSortingType, option.ToString()));
             }
 
-            var result = teamServices.GetAllTeams(sortingStrategy);
+            var result = await teamServices.GetAllTeamsAsync(sortingStrategy);
             var message = SuccessMessages.DataRetrieved;
             return Ok(new BaseAPIResponse<IEnumerable<TeamDTO>>(true, message, result));
         }
@@ -56,7 +56,7 @@ namespace Football_League.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddTeam(AddTeamDTO team)
         {
-            teamServices.AddTeam(team);
+            await teamServices.AddTeamAsync(team);
             var message = string.Format(SuccessMessages.EntityAdded, nameof(Team));
             return StatusCode(StatusCodes.Status201Created, new BaseAPIResponse(true, message));
         }
@@ -70,7 +70,7 @@ namespace Football_League.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> UpdateTeam(UpdateTeamDTO team)
         {
-            teamServices.Update(team);
+            await teamServices.UpdateTeamAsync(team);
             var message = string.Format(SuccessMessages.EntityUpdated, nameof(Team), team.Id);
             return Ok(new BaseAPIResponse(true, message));
         }
@@ -78,16 +78,15 @@ namespace Football_League.Controllers
         /// <summary>
         /// Deletes a team object by team id.
         /// </summary>
-        /// <param name="id">Represents the id of the team to be deleted..</param>
+        /// <param name="id">Represents the id of the team to be deleted.</param>
         /// <response code="200">Team has been deleted successfully.</response>
         /// <response code="400">Error on team deletion.</response>
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteTeam(int id)
         {
-            teamServices.DeleteTeam(id);
+            await teamServices.DeleteTeamAsync(id);
             var message = string.Format(SuccessMessages.EntityDeleted, nameof(Team), id);
             return Ok(new BaseAPIResponse(true, message));
         }
-
     }
 }

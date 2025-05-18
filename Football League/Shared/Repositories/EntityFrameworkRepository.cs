@@ -17,16 +17,16 @@ namespace Football_League.Shared.Repositories
             DbSet = Context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> GetAll() => DbSet.ToList();
-        public virtual IEnumerable<TEntity> GetAllAsNoTracking() => DbSet.AsNoTracking().ToList();
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate) => DbSet.Where(predicate).ToList();
-        public TEntity GetById(TKey id)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync() => await DbSet.ToListAsync();
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsNoTrackingAsync() => await DbSet.AsNoTracking().ToListAsync();
+        public async Task <IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate) => await DbSet.Where(predicate).ToListAsync();
+        public async Task<TEntity> GetByIdAsync(TKey id)
         {
-            var entry = DbSet.FirstOrDefault(x => x.Id!.Equals(id));
+            var entry = await DbSet.FirstOrDefaultAsync(x => x.Id!.Equals(id));
             if (entry == null) throw new ArgumentException(string.Format(ErrorMessages.EntityNotFound, typeof(TEntity).Name, id));
             return entry;
         }
-        public virtual void Add(TEntity entity) => DbSet.Add(entity);
+        public virtual async Task AddAsync(TEntity entity) => await DbSet.AddAsync(entity);
 
         public virtual void Delete(TEntity entity) => DbSet.Remove(entity);
     }

@@ -7,7 +7,7 @@ namespace Football_League.Data.Models
     public class Team : BaseEntity<int>
     {
         [Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public int Points { get; set; }
         public int GoalsScored { get; set; }
         public int GoalsCondeded { get; set; }

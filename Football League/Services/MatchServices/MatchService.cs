@@ -17,12 +17,12 @@ namespace Football_League.Services.MatchServices
             this.unitOfWork = unitOfWork;
             this.resultProcessor = resultProcessor;
         }
-        public void AddMatch(AddMatchDTO match)
+        public async Task AddMatchAsync(AddMatchDTO match)
         {
             if (match.HomeTeamId == match.AwayTeamId) throw new ArgumentException(ErrorMessages.MatchSameTeams);
 
-            var homeTeam = unitOfWork.Teams.GetById(match.HomeTeamId);
-            var awayTeam = unitOfWork.Teams.GetById(match.AwayTeamId);
+            var homeTeam = await unitOfWork.Teams.GetByIdAsync(match.HomeTeamId);
+            var awayTeam = await unitOfWork.Teams.GetByIdAsync(match.AwayTeamId);
 
             var entry = new Match()
             {
@@ -32,23 +32,25 @@ namespace Football_League.Services.MatchServices
                 AwayTeamGoals = match.AwayTeamGoals,
             };
 
-            unitOfWork.Matches.Add(entry);
+            await unitOfWork.Matches.AddAsync(entry);
             resultProcessor.Apply(entry);
 
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
         }
 
-        public void DeleteMatch(int id)
+        public async Task DeleteMatchAsync(int id)
         {
-            var entry = unitOfWork.Matches.GetById(id);
+            var entry = await unitOfWork.Matches.GetByIdAsync(id);
 
             unitOfWork.Matches.Delete(entry);
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
         }
 
-        public IEnumerable<MatchDTO> GetAllMatches()
+        public async Task<IEnumerable<MatchDTO>> GetAllMatchesAsync()
         {
-            return unitOfWork.Matches.GetMatchesWithTeams().Select(x => new MatchDTO() 
+            var matches = await unitOfWork.Matches.GetMatchesWithTeamsAsync();
+
+            return matches.Select(x => new MatchDTO() 
             { 
                 Id = x.Id,
                 HomeTeamId = x.HomeTeamId,
@@ -60,13 +62,13 @@ namespace Football_League.Services.MatchServices
             });
         }
 
-        public void UpdateMatch(UpdateMatchDTO match)
+        public async Task UpdateMatchAsync(UpdateMatchDTO match)
         {
             if (match.HomeTeamId == match.AwayTeamId) throw new ArgumentException(ErrorMessages.MatchSameTeams);
 
-            var entry = unitOfWork.Matches.GetMatchByIdWithTeams(match.Id);
-            entry.HomeTeam = unitOfWork.Teams.GetById(match.HomeTeamId);
-            entry.AwayTeam = unitOfWork.Teams.GetById(match.AwayTeamId);
+            var entry = await unitOfWork.Matches.GetMatchByIdWithTeamsAsync(match.Id);
+            entry.HomeTeam = await unitOfWork.Teams.GetByIdAsync(match.HomeTeamId);
+            entry.AwayTeam = await unitOfWork.Teams.GetByIdAsync(match.AwayTeamId);
 
             resultProcessor.Revert(entry);
 
@@ -78,7 +80,7 @@ namespace Football_League.Services.MatchServices
 
             resultProcessor.Apply(entry);
 
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
         }
     }
 }

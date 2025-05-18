@@ -34,33 +34,5 @@ namespace Football_League.Data.Contexts
 
             base.OnModelCreating(modelBuilder);
         }
-
-        public override int SaveChanges()
-        {
-            ApplyAuditInfoRules();
-            return base.SaveChanges(true);
-        }
-
-        private void ApplyAuditInfoRules()
-        {
-            var changedEntries = ChangeTracker
-                .Entries()
-                .Where(e =>
-                    e.Entity is IEntityAuditInfo &&
-                    (e.State == EntityState.Added || e.State == EntityState.Modified));
-
-            foreach (var entry in changedEntries)
-            {
-                var entity = (IEntityAuditInfo)entry.Entity;
-                if (entry.State == EntityState.Added && entity.CreatedOn == default)
-                {
-                    entity.CreatedOn = DateTime.Now;
-                }
-                else
-                {
-                    entity.ModifiedOn = DateTime.Now;
-                }
-            }
-        }
     }
 }

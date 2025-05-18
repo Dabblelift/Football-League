@@ -5,12 +5,12 @@ namespace Football_League.Repositories.Interfaces
 {
     public interface IRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
-        IEnumerable<TEntity> GetAll();
-        IEnumerable<TEntity> GetAllAsNoTracking();
-        TEntity GetById(TKey id);
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsNoTrackingAsync();
+        Task<TEntity> GetByIdAsync(TKey id);
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
-        void Add(TEntity entity);
+        Task AddAsync(TEntity entity);
         void Delete(TEntity entity);
     }
 }

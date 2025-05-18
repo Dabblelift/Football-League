@@ -4,11 +4,11 @@ namespace Football_League.Services.MatchServices.Interfaces
 {
     public interface IMatchService
     {
-        IEnumerable<MatchDTO> GetAllMatches();
+        Task<IEnumerable<MatchDTO>> GetAllMatchesAsync();
 
-        void AddMatch(AddMatchDTO match);
-        void UpdateMatch(UpdateMatchDTO match);
-        void DeleteMatch(int id);
+        Task AddMatchAsync(AddMatchDTO match);
+        Task UpdateMatchAsync(UpdateMatchDTO match);
+        Task DeleteMatchAsync(int id);
 
     }
 }

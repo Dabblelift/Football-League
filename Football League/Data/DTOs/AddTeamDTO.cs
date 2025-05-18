@@ -6,7 +6,7 @@ namespace Football_League.Data.DTOs
     public class AddTeamDTO
     {
         [MinLength(3)]
-        public string TeamName { get; set; }
+        public required string TeamName { get; set; }
 
         [Range(0, 200)]
         [DefaultValue(0)]

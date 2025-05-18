@@ -4,6 +4,7 @@ using Football_League.Data.Models;
 using Football_League.Services.MatchServices.Interfaces;
 using Football_League.Shared.APIResponses;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Football_League.Controllers
 {
@@ -27,7 +28,7 @@ namespace Football_League.Controllers
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAllMatches()
         {
-            var result = matchServices.GetAllMatches();
+            var result = await matchServices.GetAllMatchesAsync();
             var message = SuccessMessages.DataRetrieved;
             return Ok(new BaseAPIResponse<IEnumerable<MatchDTO>>(true, message, result));
         }
@@ -43,7 +44,7 @@ namespace Football_League.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddMatch(AddMatchDTO match)
         {
-            matchServices.AddMatch(match);
+            await matchServices.AddMatchAsync(match);
             var message = string.Format(SuccessMessages.EntityAdded, nameof(Match));
             return StatusCode(StatusCodes.Status201Created, new BaseAPIResponse(true, message));
         }
@@ -57,7 +58,7 @@ namespace Football_League.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> UpdateMatch(UpdateMatchDTO match)
         {
-            matchServices.UpdateMatch(match);
+            await matchServices.UpdateMatchAsync(match);
             var message = string.Format(SuccessMessages.EntityUpdated, nameof(Match), match.Id);
             return Ok(new BaseAPIResponse(true, message));
         }
@@ -65,16 +66,15 @@ namespace Football_League.Controllers
         /// <summary>
         /// Deletes a match object by match id.
         /// </summary>
-        /// <param name="id">Represents the id of the match to be deleted..</param>
+        /// <param name="id">Represents the id of the match to be deleted.</param>
         /// <response code="200">Match has been deleted successfully.</response>
         /// <response code="400">Error on match deletion.</response>
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteMatch(int id)
         {
-            matchServices.DeleteMatch(id);
+            await matchServices.DeleteMatchAsync(id);
             var message = string.Format(SuccessMessages.EntityDeleted, nameof(Match), id);
             return Ok(new BaseAPIResponse(true, message));
         }
-
     }
 }

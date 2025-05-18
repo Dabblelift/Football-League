@@ -14,12 +14,12 @@ namespace Football_League.Services.TeamServices
             this.unitOfWork = unitOfWork;
         }
 
-        public void AddTeam(AddTeamDTO team)
+        public async Task AddTeamAsync(AddTeamDTO team)
         {
-            var entryExists = unitOfWork.Teams.CheckIfTeamExists(team.TeamName);
+            var entryExists = await unitOfWork.Teams.CheckIfTeamExistsAsync(team.TeamName);
             if (entryExists) throw new ArgumentException(string.Format(ErrorMessages.TeamAlreadyExists, team.TeamName));
 
-            unitOfWork.Teams.Add(new Team()
+            await unitOfWork.Teams.AddAsync(new Team()
             {
                 Name = team.TeamName,
                 Points = team.Points,
@@ -29,20 +29,23 @@ namespace Football_League.Services.TeamServices
                 Draws = team.Draws,
                 Losses = team.Losses,
             });
-            unitOfWork.Complete();
+
+            await unitOfWork.CompleteAsync();
         }
 
-        public void DeleteTeam(int id)
+        public async Task DeleteTeamAsync(int id)
         {
-            var entry = unitOfWork.Teams.GetById(id);
+            var entry = await unitOfWork.Teams.GetByIdAsync(id);
 
             unitOfWork.Teams.Delete(entry);
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
         }
 
-        public IEnumerable<TeamDTO> GetAllTeams(ISortingStrategy sortingStrategy)
+        public async Task<IEnumerable<TeamDTO>> GetAllTeamsAsync(ISortingStrategy sortingStrategy)
         {
-            return unitOfWork.Teams.GetAllAsNoTracking().Select(x => new TeamDTO()
+            var teams = await unitOfWork.Teams.GetAllAsNoTrackingAsync();
+
+            return teams.Select(x => new TeamDTO()
             {
                 Id = x.Id,
                 TeamName = x.Name,
@@ -55,13 +58,15 @@ namespace Football_League.Services.TeamServices
             });
         }
 
-        public void Update(UpdateTeamDTO team)
+        public async Task UpdateTeamAsync(UpdateTeamDTO team)
         {
-            var entry = unitOfWork.Teams.GetById(team.Id);
-
-            var nameExists = unitOfWork.Teams.CheckIfTeamExists(team.TeamName);
-            if (nameExists) throw new ArgumentException(string.Format(ErrorMessages.TeamAlreadyExists, team.TeamName));
-
+            var entry = await unitOfWork.Teams.GetByIdAsync(team.Id);
+            if (entry.Name != team.TeamName)
+            {
+                var nameExists = await unitOfWork.Teams.CheckIfTeamExistsAsync(team.TeamName);
+                if (nameExists) throw new ArgumentException(string.Format(ErrorMessages.TeamAlreadyExists, team.TeamName));
+            }
+            
             entry.Name = team.TeamName;
             entry.Points = team.Points;
             entry.GoalsScored = team.GoalsScored;
@@ -70,7 +75,7 @@ namespace Football_League.Services.TeamServices
             entry.Draws = team.Draws;
             entry.Losses = team.Losses;
 
-            unitOfWork.Complete();
+            await unitOfWork.CompleteAsync();
         }
     }
 }

@@ -4,6 +4,6 @@ namespace Football_League.Repositories.Interfaces
 {
     public interface ITeamRepository : IRepository<Team, int>
     {
-        bool CheckIfTeamExists(string name);
+        Task<bool> CheckIfTeamExistsAsync(string name);
     }
 }

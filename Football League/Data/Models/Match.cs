@@ -7,10 +7,10 @@ namespace Football_League.Data.Models
     {
         [ForeignKey(nameof(HomeTeam))]
         public int HomeTeamId { get; set; }
-        public virtual Team HomeTeam { get; set; }
+        public required virtual Team HomeTeam { get; set; }
         [ForeignKey(nameof(AwayTeam))]
         public int AwayTeamId { get; set; }
-        public virtual Team AwayTeam { get; set; }
+        public required virtual Team AwayTeam { get; set; }
         public int HomeTeamGoals { get; set; }
         public int AwayTeamGoals { get; set; }
     }

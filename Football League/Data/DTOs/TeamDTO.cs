@@ -3,7 +3,7 @@
     public class TeamDTO
     {
         public int Id { get; set; }
-        public string TeamName { get; set; }
+        public required string TeamName { get; set; }
         public int Points { get; set; }
         public int GoalsScored { get; set; }
         public int GoalsCondeded { get; set; }

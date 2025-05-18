@@ -2,6 +2,7 @@
 using Football_League.Data.Models;
 using Football_League.Repositories.Interfaces;
 using Football_League.Shared.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Football_League.Repositories
 {
@@ -14,9 +15,9 @@ namespace Football_League.Repositories
             this.db = db;
         }
 
-        public bool CheckIfTeamExists(string name)
+        public async Task<bool> CheckIfTeamExistsAsync(string name)
         {
-            return db.Teams.Any(x => x.Name == name);
+            return await db.Teams.AnyAsync(x => x.Name == name);
         }
     }
 }

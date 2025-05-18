@@ -4,12 +4,12 @@ namespace Football_League.Services.TeamServices.Interfaces
 {
     public interface ITeamService
     {
-        IEnumerable<TeamDTO> GetAllTeams(ISortingStrategy sortingStrategy);
+        Task<IEnumerable<TeamDTO>> GetAllTeamsAsync(ISortingStrategy sortingStrategy);
 
-        void AddTeam(AddTeamDTO team);
+        Task AddTeamAsync(AddTeamDTO team);
 
-        void Update(UpdateTeamDTO team);
+        Task UpdateTeamAsync(UpdateTeamDTO team);
 
-        void DeleteTeam(int id);
+        Task DeleteTeamAsync(int id);
     }
 }

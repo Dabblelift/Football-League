@@ -4,6 +4,6 @@
     {
         ITeamRepository Teams { get; }
         IMatchRepository Matches { get; }
-        int Complete();
+        Task<int> CompleteAsync();
     }
 }

@@ -16,13 +16,13 @@ namespace Football_League.Repositories
             this.db = db;
         }
 
-        public IEnumerable<Match> GetMatchesWithTeams()
+        public async Task<IEnumerable<Match>> GetMatchesWithTeamsAsync()
         {
-            return db.Matches.Include(x => x.HomeTeam).Include(x => x.AwayTeam).ToList();
+            return await db.Matches.Include(x => x.HomeTeam).Include(x => x.AwayTeam).ToListAsync();
         }
-        public Match GetMatchByIdWithTeams(int id)
+        public async Task<Match> GetMatchByIdWithTeamsAsync(int id)
         {
-            var entry = db.Matches.Include(x => x.HomeTeam).Include(x => x.AwayTeam).FirstOrDefault(x => x.Id == id);
+            var entry = await db.Matches.Include(x => x.HomeTeam).Include(x => x.AwayTeam).FirstOrDefaultAsync(x => x.Id == id);
             if (entry == null) throw new ArgumentException(string.Format(ErrorMessages.EntityNotFound, nameof(Match), id));
             return entry;
         }

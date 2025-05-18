@@ -10,7 +10,7 @@ namespace Football_League.Services.ResultProcessingServices.ScoringStrategies
 
         private void UpdateStats(Match match, bool isRevert)
         {
-            int mod = isRevert ? -1 : 1;
+            var mod = isRevert ? -1 : 1;
 
             var homeTeam = match.HomeTeam;
             var awayTeam = match.AwayTeam;
